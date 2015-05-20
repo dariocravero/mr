@@ -2,7 +2,11 @@
 
 PG=./playground
 
-./node_modules/.bin/watchify --no-bundle-external --extension .es6 -o $PG/playground.js -v -d $PG/playground.es6 &
-./node_modules/.bin/watchify `.bin/extract-dependencies` -v -o $PG/vendor.js ./package.json &
+./node_modules/.bin/watchify --extension .es6 -o $PG/playground.js -v -d $PG/playground.es6 &
+# ./node_modules/.bin/watchify `.bin/extract-dependencies` \
+#   -r babel-runtime/regenerator \
+#   -r babel-runtime/core-js \
+#   -r babel-runtime/helpers \
+#   -v -o $PG/vendor.js ./package.json &
 ./node_modules/.bin/livereloadify $PG &
 ./node_modules/.bin/static $PG --port 3000 --cache 0

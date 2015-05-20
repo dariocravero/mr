@@ -1,0 +1,1 @@
+export StateRecord from './state';
