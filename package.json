@@ -1,0 +1,49 @@
+{
+  "name": "mr",
+  "version": "0.1.0",
+  "description": "a modern (epub) renderer",
+  "main": "index.js",
+  "scripts": {
+    "test": ".bin/test",
+    "prepublish": ".bin/compile",
+    "postpublish": ".bin/clean",
+    "start": ".bin/start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dariocravero/mr"
+  },
+  "keywords": [
+    "mr",
+    "modern",
+    "epub",
+    "renderer"
+  ],
+  "author": "Darío Javier Cravero <dario@uxtemple.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dariocravero/mr/issues"
+  },
+  "homepage": "https://github.com/dariocravero/mr",
+  "dependencies": {
+    "readium": "dariocravero/readium-js"
+  },
+  "devDependencies": {
+    "babel": "^5.3.3",
+    "babelify": "^6.1.0",
+    "browserify": "^10.2.0",
+    "envify": "^3.4.0",
+    "livereloadify": "^2.0.0",
+    "mocha": "^2.2.4",
+    "node-static": "^0.7.6",
+    "react-native": "^0.4.2",
+    "sinon": "^1.14.1",
+    "watchify": "^3.2.1"
+  },
+  "browserify": {
+    "transform": [
+      "babelify",
+      "envify"
+    ]
+  }
+}
