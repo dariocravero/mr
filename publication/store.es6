@@ -20,6 +20,8 @@ export default class PublicationStore extends Store {
     this.state = new StateRecord();
   }
 
+  get contentBaseUri() { return `${this.state.uri}/OPS` }
+  get ready() { return this.state.ready }
   get smil() {
     if (!this.state.smil && !this.querying.contains('smil')) {
       if (this.ready) {
@@ -29,9 +31,8 @@ export default class PublicationStore extends Store {
     }
     return this.state.smil;
   }
-  get ready() { return this.state.ready }
   get spine() { return this.state.spine }
-  get contentBaseUri() { return `${this.state.uri}/OPS` }
+  getSpineItemByIndex(index) { return this.state.spine[index] }
 
   load(publication) {
     this.setState(new StateRecord({
@@ -39,7 +40,6 @@ export default class PublicationStore extends Store {
       ready: true
     }));
   }
-
   loadSmil(smil) {
     this.querying = this.querying.filter(f => f !== 'smil');
     this.setState(this.state.set('smil', smil));

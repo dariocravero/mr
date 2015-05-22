@@ -8,11 +8,7 @@ const style = {
 
 export default class Viewport extends React.Component {
   render() {
-    return (
-      this.props.spineItem ?
-        <iframe src={`${this.props.contentBaseUri}/${this.props.spineItem.href}`} style={style} /> :
-        <span style={style}>loading...</span>
-    );
+    return <iframe src={`${this.props.contentBaseUri}/${this.props.spineItem.href}`} style={style} />;
   }
 }
 

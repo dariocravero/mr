@@ -41,9 +41,8 @@ let Playground = {
   loadBook(name) {
     flux.getActions('publication').load(`/books/${name}`);
   },
-  loadSpine(index) {
-    const spineItem = flux.getStore('publication').spine[index];
-    flux.getActions('viewport').setSpineItem(spineItem);
+  loadSpineItemIndex(index) {
+    flux.getActions('viewport').setSpineItemIndex(index);
   },
   getPublicationState() {
     return flux.getStore('publication').state;
