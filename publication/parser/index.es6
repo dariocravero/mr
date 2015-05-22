@@ -10,7 +10,7 @@ export default async function parse(uri) {
     const manifest = extract.manifest(rootXml);
     const metadata = extract.metadata(rootXml, manifest);
     const spine = extract.spine(rootXml, manifest);
-    const smil = extract.smil(manifest, metadata);
+    const smil = await extract.smil(uri, spine, manifest, metadata.mediaOverlayDurations);
 
     return {
       manifest,

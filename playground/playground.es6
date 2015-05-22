@@ -41,7 +41,7 @@ console.log('Welcome to mr playground.');
 console.log('https://github.com/dariocravero/mr');
 console.log('Playground module', Playground);
 
-Playground.loadBook('ss-go');
+Playground.loadBook('xplor8');
 
 React.render(
   <FluxComponent flux={flux}>
