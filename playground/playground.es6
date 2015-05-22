@@ -4,11 +4,28 @@ import FluxComponent from 'flummox/component';
 import React from 'react';
 import RendererContainer from '../renderer/container';
 
-export default class AppFlux extends Flux {
+class QueriesFlux extends Flux {
+  constructor() {
+    super();
+
+    this.queries = {};
+  }
+
+  createQueries(name, klass) {
+    this.queries[name] = new klass(this);
+  }
+
+  getQueries(name) {
+    return this.queries[name];
+  }
+}
+
+export default class AppFlux extends QueriesFlux {
   constructor() {
     super();
 
     this.createActions('publication', mr.Publication.Actions);
+    this.createQueries('publication', mr.Publication.Queries);
     this.createStore('publication', mr.Publication.Store, this);
 
     this.createActions('renderer', mr.Renderer.Actions);

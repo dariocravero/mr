@@ -1,3 +1,4 @@
+import { List } from 'immutable';
 import { StateRecord } from './records';
 import { Store } from 'flummox';
 
@@ -9,14 +10,37 @@ export default class PublicationStore extends Store {
 
     const actionIds = flux.getActionIds('publication');
     this.register(actionIds.load, this.load);
+    this.register(actionIds.loadSmil, this.loadSmil);
+
+    this.querying = List();
+    this.queries = {
+      smil: flux.getQueries('publication').smil
+    };
 
     this.state = new StateRecord();
   }
 
+  get smil() {
+    if (!this.state.smil && !this.querying.contains('smil')) {
+      if (this.state.ready) {
+        this.querying = this.querying.push('smil');
+        this.queries.smil(this.state.uri, this.state.spine, this.state.manifest, this.state.metadata.mediaOverlayDurations);
+      }
+    }
+    return this.state.smil;
+  }
   get spine() { return this.state.spine }
   get contentBaseUri() { return `${this.state.uri}/OPS` }
 
   load(publication) {
-    this.setState(new StateRecord(publication));
+    this.setState(new StateRecord({
+      ...publication,
+      ready: true
+    }));
+  }
+
+  loadSmil(smil) {
+    this.querying = this.querying.filter(f => f !== 'smil');
+    this.setState(this.state.set('smil', smil));
   }
 }

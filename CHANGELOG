@@ -11,6 +11,8 @@
     - Get the root XML that contains `metadata`, `manifest` and `spine` information.
     - Like `Readium` does, it augments the `spine items` with their `manifest` information.
     - Parses the SMIL structure with refinements from the metadata.
+      - Smil data is fetched and parsed on the fly when first requested to show content to the
+      user as fast as possible.
   - Provides a Flux structure to store and access data.
 - Renderer module.
   - Presents an iframe renderer that renders a `spine item`.

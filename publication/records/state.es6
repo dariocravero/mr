@@ -4,6 +4,7 @@ import { Record } from 'immutable';
 export default class StateRecord extends Record({
   manifest: undefined,
   metadata: undefined,
+  ready: false,
   rootFile: undefined,
   rootXml: undefined,
   smil: undefined,

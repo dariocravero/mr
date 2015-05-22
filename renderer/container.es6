@@ -5,7 +5,7 @@ import React from 'react';
 export default class RendererContainer extends React.Component {
   get stores() {
     return {
-      publication: store => ({contentBaseUri: store.contentBaseUri}),
+      publication: store => ({contentBaseUri: store.contentBaseUri, smil: store.smil}),
       renderer: store => ({spineItem: store.spineItem})
     };
   }

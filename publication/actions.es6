@@ -5,4 +5,8 @@ export default class PublicationActions extends Actions {
   async load(uri) {
     return await parse(uri);
   }
+
+  loadSmil(smil) {
+    return smil;
+  }
 }
