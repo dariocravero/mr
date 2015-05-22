@@ -16,14 +16,7 @@ export default class ViewportStore extends Store {
     this.state = new StateRecord();
   }
 
-  init(publication) {
-    console.log('ViewportStore#init', publication.spine);
-    this.setSpineItem(publication.spine[1]);
-  }
-
+  init(publication) { this.setSpineItem(publication.spine[1]) }
   get spineItem() { return this.state.spineItem }
-
-  setSpineItem(spineItem) {
-    this.setState(this.state.set('spineItem', spineItem));
-  }
+  setSpineItem(spineItem) { this.setState(this.state.set('spineItem', spineItem)) }
 }
