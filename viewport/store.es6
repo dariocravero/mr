@@ -1,22 +1,23 @@
 import { StateRecord } from './records';
 import { Store } from 'flummox';
 
-export default class RendererStore extends Store {
+export default class ViewportStore extends Store {
   static assignState(oldState, newState) { return newState }
 
   constructor(flux) {
     super();
 
-    const actionIds = flux.getActionIds('renderer');
+    const actionIds = flux.getActionIds('viewport');
     this.register(actionIds.setSpineItem, this.setSpineItem);
 
     const publicationActionIds = flux.getActionIds('publication');
-    this.register(publicationActionIds.load, this.initialise);
+    this.register(publicationActionIds.load, this.init);
 
     this.state = new StateRecord();
   }
 
-  initialise(publication) {
+  init(publication) {
+    console.log('ViewportStore#init', publication.spine);
     this.setSpineItem(publication.spine[1]);
   }
 

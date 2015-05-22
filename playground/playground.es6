@@ -2,7 +2,7 @@ import * as mr from '../index';
 import { Flux } from 'flummox';
 import FluxComponent from 'flummox/component';
 import React from 'react';
-import RendererContainer from '../renderer/container';
+import ViewportContainer from '../viewport/container';
 
 class QueriesFlux extends Flux {
   constructor() {
@@ -28,8 +28,8 @@ export default class AppFlux extends QueriesFlux {
     this.createQueries('publication', mr.Publication.Queries);
     this.createStore('publication', mr.Publication.Store, this);
 
-    this.createActions('renderer', mr.Renderer.Actions);
-    this.createStore('renderer', mr.Renderer.Store, this);
+    this.createActions('viewport', mr.Viewport.Actions);
+    this.createStore('viewport', mr.Viewport.Store, this);
   }
 }
 
@@ -43,13 +43,13 @@ let Playground = {
   },
   loadSpine(index) {
     const spineItem = flux.getStore('publication').spine[index];
-    flux.getActions('renderer').setSpineItem(spineItem);
+    flux.getActions('viewport').setSpineItem(spineItem);
   },
   getPublicationState() {
     return flux.getStore('publication').state;
   },
-  getRendererState() {
-    return flux.getStore('renderer').state;
+  getViewportState() {
+    return flux.getStore('viewport').state;
   }
 };
 window.Playground = Playground;
@@ -62,7 +62,7 @@ Playground.loadBook('xplor8');
 
 React.render(
   <FluxComponent flux={flux}>
-    <RendererContainer />
+    <ViewportContainer />
   </FluxComponent>,
   document.getElementById('playground-container')
 );

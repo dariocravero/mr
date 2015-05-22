@@ -14,6 +14,6 @@
       - Smil data is fetched and parsed on the fly when first requested to show content to the
       user as fast as possible.
   - Provides a Flux structure to store and access data.
-- Renderer module.
-  - Presents an iframe renderer that renders a `spine item`.
+- Viewport module.
+  - Presents an iframe that renders a `spine item`.
   - Provides a Flux structure to store and access data.

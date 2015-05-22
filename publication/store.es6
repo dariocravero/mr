@@ -22,13 +22,14 @@ export default class PublicationStore extends Store {
 
   get smil() {
     if (!this.state.smil && !this.querying.contains('smil')) {
-      if (this.state.ready) {
+      if (this.ready) {
         this.querying = this.querying.push('smil');
         this.queries.smil(this.state.uri, this.state.spine, this.state.manifest, this.state.metadata.mediaOverlayDurations);
       }
     }
     return this.state.smil;
   }
+  get ready() { return this.state.ready }
   get spine() { return this.state.spine }
   get contentBaseUri() { return `${this.state.uri}/OPS` }
 

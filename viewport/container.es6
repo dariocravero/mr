@@ -2,11 +2,11 @@ import Component from './component';
 import FluxComponent from 'flummox/component';
 import React from 'react';
 
-export default class RendererContainer extends React.Component {
+export default class ViewportContainer extends React.Component {
   get stores() {
     return {
-      publication: store => ({contentBaseUri: store.contentBaseUri, smil: store.smil}),
-      renderer: store => ({spineItem: store.spineItem})
+      publication: store => ({contentBaseUri: store.contentBaseUri}),
+      viewport: store => ({spineItem: store.spineItem})
     };
   }
 
