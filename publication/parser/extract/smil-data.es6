@@ -1,5 +1,6 @@
 const BODY = 'body';
 const TAG = 'smil';
+const TEXT = 'text';
 const VERSION = 'version';
 
 export default function smilData(xml, manifestItem, spineItem, {clockValue}) {
@@ -50,11 +51,19 @@ function extractAttributes(itemXml) {
     }
 
     ret = {
-      type: node.type
+      nodeType: node.type
     };
 
     Object.keys(node.OPTIONAL).forEach(key => attribute(key, node.OPTIONAL[key], false));
     Object.keys(node.REQUIRED).forEach(key => attribute(key, node.REQUIRED[key], true));
+
+    // TODO Review. Readium seems to need this
+    // https://github.com/dariocravero/readium-js/blob/master/src/epub/smil-document-parser.js#L113-L115
+    if (node.type === TEXT) {
+      const [ srcFile, srcFragmentId ] = ret.src.split('#');
+      ret.srcFile = srcFile;
+      ret.srcFragmentId = srcFragmentId;
+    }
 
     if (node.canHaveChildren) {
       ret.children = extractChildren(itemXml);
