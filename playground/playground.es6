@@ -57,6 +57,8 @@ console.log('Welcome to mr playground.');
 console.log('https://github.com/dariocravero/mr');
 console.log('Playground module', Playground);
 
+// Start at a different spine item index
+// Playground.loadSpineItemIndex(2);
 Playground.loadBook('xplor8');
 
 React.render(
