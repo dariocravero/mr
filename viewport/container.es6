@@ -8,7 +8,8 @@ class ViewportInnerContainer extends React.Component {
       publication: store => ({
         contentBaseUri: store.contentBaseUri,
         spineItem: store.getSpineItemByIndex(this.props.spineItemIndex)
-      })
+      }),
+      viewport: store => ({viewportId: store.id})
     };
   }
 

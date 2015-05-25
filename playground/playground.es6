@@ -1,18 +1,24 @@
 import * as mr from '../index';
 import { Flux } from 'flummox';
+import buildMediaOverlayData from './build-media-overlay-data';
+import buildPackage from './build-package';
+import buildReader from './build-reader';
 import FluxComponent from 'flummox/component';
+import MediaOverlayDataInjector from '@hmh/readium/src/sdk/views/media-overlay-data-injector';
+import MediaOverlayModel from '@hmh/readium/src/sdk/models/media-overlay';
+import MediaOverlayPlayer from '@hmh/readium/src/sdk/views/media-overlay-player';
 import React from 'react';
+import ViewerSettings from '@hmh/readium/src/sdk/models/viewer-settings';
 import ViewportContainer from '../viewport/container';
 
 class QueriesFlux extends Flux {
   constructor() {
     super();
-
     this.queries = {};
   }
 
-  createQueries(name, klass) {
-    this.queries[name] = new klass(this);
+  createQueries(name, klass, ...options) {
+    this.queries[name] = new klass(...options);
   }
 
   getQueries(name) {
@@ -25,7 +31,7 @@ export default class AppFlux extends QueriesFlux {
     super();
 
     this.createActions('publication', mr.Publication.Actions);
-    this.createQueries('publication', mr.Publication.Queries);
+    this.createQueries('publication', mr.Publication.Queries, this);
     this.createStore('publication', mr.Publication.Store, this);
 
     this.createActions('viewport', mr.Viewport.Actions);
@@ -44,11 +50,47 @@ let Playground = {
   loadSpineItemIndex(index) {
     flux.getActions('viewport').setSpineItemIndex(index);
   },
-  getPublicationState() {
-    return flux.getStore('publication').state;
+  getPublicationStore() {
+    return flux.getStore('publication');
   },
-  getViewportState() {
-    return flux.getStore('viewport').state;
+  getViewportStore() {
+    return flux.getStore('viewport');
+  },
+  Readium: {
+    mediaOverlay(viewerSettings = {}) {
+      const store = flux.getStore('publication');
+      let readiumViewerSettings = new ViewerSettings(viewerSettings);
+
+      function onStatusChanged(...args) {
+        console.log('#onStatusChanged', args);
+      }
+
+      return new Promise(resolve => {
+        store.once('change', () => resolve(buildMediaOverlayData(store.metadata, store.smil)));
+        store.smil;
+      }).then(dto => {
+        let readiumPackage = buildPackage(store.contentBaseUri, store.spine, dto);
+        let model = MediaOverlayModel.fromDTO(dto, readiumPackage);
+        let readiumReader = buildReader({
+          readiumPackage,
+          readiumViewerSettings,
+          publicationStore: store,
+          viewportStore: flux.getStore('viewport')
+        });
+        let player = new MediaOverlayPlayer(readiumReader, onStatusChanged);
+        let dataInjector = new MediaOverlayDataInjector(model, player);
+        readiumReader.dataInjector = dataInjector;
+        readiumReader.initViewForItem();
+
+        return {
+          dataInjector,
+          model,
+          readiumPackage,
+          player,
+          readiumReader
+        };
+      });
+    }
   }
 };
 window.Playground = Playground;

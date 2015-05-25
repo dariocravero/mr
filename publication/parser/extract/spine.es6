@@ -11,10 +11,15 @@ const YES = 'yes';
 
 export default function spine(rootXml, manifest) {
   return items(rootXml.querySelector(TAG), ITEM, ATTRIBUTES).map(item => {
+    const mitem = manifest.find(mitem => mitem.id === item.id);
+
     return {
-      ...manifest.find(mitem => mitem.id === item.id),
+      ...mitem, // for readium
       ...item,
-      linear: item.linear === YES
+      idref: item.id, // for readium
+      media_overlay_id: mitem.mediaOverlay, // for readium
+      media_type: mitem.mediaType // for readium
+      // linear: item.linear === YES // TODO Replace. Readium needs it to be a string.
     };
   });
 }

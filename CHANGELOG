@@ -4,6 +4,7 @@
 
 ### Added
 
+- Media overlay integration hack.
 - Publication module.
   - Parses a publication by following the following steps:
     - Get `META-INF/container.xml`.

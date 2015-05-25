@@ -21,6 +21,7 @@ export default class PublicationStore extends Store {
   }
 
   get contentBaseUri() { return `${this.state.uri}/OPS` }
+  get metadata() { return this.state.metadata }
   get ready() { return this.state.ready }
   get smil() {
     if (!this.state.smil && !this.querying.contains('smil')) {

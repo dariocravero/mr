@@ -10,9 +10,12 @@ export default class ViewportStore extends Store {
     const actionIds = flux.getActionIds('viewport');
     this.register(actionIds.setSpineItemIndex, this.setSpineItemIndex);
 
-    this.state = new StateRecord();
+    this.state = new StateRecord({
+      id: `viewport-${new Date().getTime()}`
+    });
   }
 
+  get id() { return this.state.id }
   get spineItemIndex() { return this.state.spineItemIndex }
   setSpineItemIndex(index) { this.setState(this.state.set('spineItemIndex', index)) }
 }

@@ -1,23 +1,28 @@
+import parseClockValue from './parse-clock-value';
+
+const AUDIO = 'audio';
 const BODY = 'body';
 const TAG = 'smil';
 const TEXT = 'text';
 const VERSION = 'version';
 
+// TODO `smilVersion` could be `version` and the parsing of the `clockValue` could be deferred
+// up to when its used. We put it in here to comply with Readium's data structure needs.
 export default function smilData(xml, manifestItem, spineItem, {clockValue}) {
   const smilXml = xml.querySelector(TAG);
   const children = extractChildren(smilXml);
-  const version = smilXml.getAttribute(VERSION);
+  const smilVersion = smilXml.getAttribute(VERSION);
 
   let ret = {
     children,
     href: manifestItem.href,
     id: manifestItem.id,
     spineItemId: spineItem.id,
-    version
+    smilVersion
   };
 
   if (clockValue) {
-    ret.duration = clockValue;
+    ret.duration = parseClockValue(clockValue);
   }
 
   return ret;
@@ -59,16 +64,25 @@ function extractAttributes(itemXml) {
 
     // TODO Review. Readium seems to need this
     // https://github.com/dariocravero/readium-js/blob/master/src/epub/smil-document-parser.js#L113-L115
-    if (node.type === TEXT) {
+    if (ret.nodeType === TEXT) {
       const [ srcFile, srcFragmentId ] = ret.src.split('#');
       ret.srcFile = srcFile;
       ret.srcFragmentId = srcFragmentId;
     }
 
+    if (ret.nodeType === AUDIO) {
+      if (ret.clipBegin) {
+        ret.clipBegin = parseClockValue(ret.clipBegin);
+      }
+      if (ret.clipEnd) {
+        ret.clipEnd = parseClockValue(ret.clipEnd);
+      }
+    }
+
     if (node.canHaveChildren) {
       ret.children = extractChildren(itemXml);
     }
-  } else {
+  // } else {
     // TODO Review this edge case. Should we throw or silently fail?
     // console.error(`${itemXml.tagName} isn't a valid smil data node`, itemXml);
   }

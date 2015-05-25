@@ -2,11 +2,45 @@
 
 PG=./playground
 
-./node_modules/.bin/watchify --extension .es6 -o $PG/playground.js -v -d $PG/playground.es6 &
-# ./node_modules/.bin/watchify `.bin/extract-dependencies` \
-#   -r babel-runtime/regenerator \
-#   -r babel-runtime/core-js \
-#   -r babel-runtime/helpers \
-#   -v -o $PG/vendor.js ./package.json &
+./node_modules/.bin/watchify --no-bundle-external --extension .es6 -o $PG/playground.js -v -d $PG/playground.es6 &
+./node_modules/.bin/watchify \
+  -r @hmh/readium/src/sdk/models/media-overlay \
+  -r @hmh/readium/src/sdk/models/package \
+  -r @hmh/readium/src/sdk/models/viewer-settings \
+  -r @hmh/readium/src/sdk/views/media-overlay-data-injector \
+  -r @hmh/readium/src/sdk/views/media-overlay-player \
+  -r babel-runtime/regenerator \
+  -r babel-runtime/core-js/get-iterator \
+  -r babel-runtime/core-js/symbol \
+  -r babel-runtime/core-js/symbol/iterator \
+  -r babel-runtime/core-js/object/create \
+  -r babel-runtime/core-js/object/define-property \
+  -r babel-runtime/core-js/object/keys \
+  -r babel-runtime/core-js/promise \
+  -r babel-runtime/helpers/bind \
+  -r babel-runtime/helpers/create-class \
+  -r babel-runtime/helpers/class-call-check \
+  -r babel-runtime/helpers/inherits \
+  -r babel-runtime/helpers/interop-require \
+  -r babel-runtime/helpers/interop-require-default \
+  -r babel-runtime/helpers/interop-require-wildcard \
+  -r babel-runtime/helpers/get \
+  -r babel-runtime/helpers/sliced-to-array \
+  -r babel-runtime/helpers/extends \
+  -r core-js/library/fn/get-iterator \
+  -r core-js/library/fn/symbol \
+  -r core-js/library/fn/symbol/iterator \
+  -r core-js/library/fn/object/create \
+  -r core-js/library/fn/object/define-property \
+  -r core-js/library/fn/object/keys \
+  -r core-js/library/fn/promise \
+  -r core-js/modules/es6.array.find \
+  -r flummox \
+  -r flummox/component \
+  -r immutable \
+  -r isomorphic-fetch \
+  -r react \
+  -r react/addons \
+  -v -o $PG/vendor.js ./package.json &
 ./node_modules/.bin/livereloadify $PG &
 ./node_modules/.bin/static $PG --port 3000 --cache 0
