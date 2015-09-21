@@ -8,7 +8,12 @@ const style = {
 
 export default class Viewport extends React.Component {
   render() {
-    return <iframe id={this.props.viewportId} src={`${this.props.contentBaseUri}/${this.props.spineItem.href}`} style={style} />;
+    console.time('mr:iframe');
+    return <iframe id={this.props.viewportId} src={`${this.props.contentBaseUri}/${this.props.spineItem.href}`} style={style} onLoad={this.onLoad} />;
+  }
+
+  onLoad() {
+    console.timeEnd('mr:iframe');
   }
 }
 

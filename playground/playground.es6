@@ -45,6 +45,7 @@ let Playground = {
   flux,
   mr,
   loadBook(name) {
+    console.time('mr:loadBook');
     flux.getActions('publication').load(`/books/${name}`);
   },
   loadSpineItemIndex(index) {
@@ -101,7 +102,7 @@ console.log('Playground module', Playground);
 
 // Start at a different spine item index
 // Playground.loadSpineItemIndex(2);
-Playground.loadBook('xplor8');
+Playground.loadBook('xplor-latest');
 
 React.render(
   <FluxComponent flux={flux}>

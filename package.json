@@ -29,7 +29,7 @@
     "@hmh/readium": "^0.3.1",
     "babel-runtime": "^5.4.4",
     "core-js": "^0.9.11",
-    "flummox": "^4.0.0-alpha2",
+    "flummox": "4.0.0-alpha2",
     "immutable": "^3.7.3",
     "isomorphic-fetch": "^2.0.2",
     "react": "^0.13.3"

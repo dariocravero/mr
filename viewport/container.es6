@@ -14,6 +14,9 @@ class ViewportInnerContainer extends React.Component {
   }
 
   render() {
+    if (this.props.ready) {
+      console.timeEnd('mr:loadBook');
+    }
     return (
       this.props.ready ?
         <FluxComponent connectToStores={this.stores}><Component /></FluxComponent> :
